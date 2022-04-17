@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public void save(User user) {
+    //TODO: change upon user creation implementation
     List<Role> roleList = (List<Role>) roleRepo.findAll();
     user.setRoles(roleList);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
