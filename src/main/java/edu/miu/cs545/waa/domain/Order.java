@@ -1,5 +1,6 @@
 package edu.miu.cs545.waa.domain;
 
+import edu.miu.cs545.waa.domain.dto.Base;
 import edu.miu.cs545.waa.enums.Payment;
 import lombok.Data;
 
@@ -19,4 +20,5 @@ public class Order extends Base {
     private Payment payment;
     @ManyToOne
     private Product product;
+
 }

@@ -1,4 +1,4 @@
-package edu.miu.cs545.waa.domain;
+package edu.miu.cs545.waa.domain.dto;
 
 import edu.miu.cs545.waa.enums.Status;
 import lombok.Data;
@@ -11,8 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
-@Data
 @MappedSuperclass
+@Data
 public class Base {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

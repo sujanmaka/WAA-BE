@@ -1,5 +1,8 @@
 package edu.miu.cs545.waa.service;
 
-public interface UserService {
-    void updateBuyerRewardPoint(String userId);
+
+import edu.miu.cs545.waa.domain.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface UserService extends BaseService<User>, UserDetailsService {
 }

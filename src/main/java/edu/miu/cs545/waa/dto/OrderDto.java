@@ -1,7 +1,7 @@
 package edu.miu.cs545.waa.dto;
 
 import edu.miu.cs545.waa.domain.Address;
-import edu.miu.cs545.waa.domain.Base;
+import edu.miu.cs545.waa.domain.dto.Base;
 import edu.miu.cs545.waa.enums.Payment;
 import lombok.Data;
 

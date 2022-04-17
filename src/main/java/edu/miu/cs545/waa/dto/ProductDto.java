@@ -1,6 +1,6 @@
 package edu.miu.cs545.waa.dto;
 
-import edu.miu.cs545.waa.domain.Base;
+import edu.miu.cs545.waa.domain.dto.Base;
 import lombok.Data;
 
 import java.util.List;

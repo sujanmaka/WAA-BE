@@ -117,12 +117,13 @@ public class ProductServiceImpl implements ProductService {
         order.get().setStatus(statusDto.getStatus());
         //increase the point of the buyer
         if (order.get().getStatus().equals(Status.DELIVERED)) {
-            increaseBuyerRewardPoint(order.get().getUserId());
+            //TODO
+//            increaseBuyerRewardPoint(order.get().getUserId());
         }
         return orderService.saveOrder(order.get());
     }
 
-    private void increaseBuyerRewardPoint(String userId) {
-        userService.updateBuyerRewardPoint(userId);
-    }
+//    private void increaseBuyerRewardPoint(String userId) {
+//        userService.updateBuyerRewardPoint(userId);
+//    }
 }

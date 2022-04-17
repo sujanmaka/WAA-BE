@@ -4,7 +4,7 @@ import edu.miu.cs545.waa.domain.Follow;
 import edu.miu.cs545.waa.domain.User;
 import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.SellerDto;
-import edu.miu.cs545.waa.enums.Role;
+import edu.miu.cs545.waa.enums.RoleType;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.repository.FollowRepository;
 import edu.miu.cs545.waa.repository.UserRepository;
@@ -50,9 +50,9 @@ public class SellerServiceImpl implements SellerService {
     public List<SellerDto> getSellers(FilterDto filterDto, String userId) {
         List<User> users;
         if (filterDto != null && filterDto.getStatus() != null) {
-            users = userRepository.findByRoleAndStatus(Role.SELLER, filterDto.getStatus());
+            users = userRepository.findByRoleTypeAndStatus(RoleType.SELLER, filterDto.getStatus());
         } else {
-            users = userRepository.findByRole(Role.SELLER);
+            users = userRepository.findByRoleType(RoleType.SELLER);
         }
         return (List<SellerDto>) mapperToSellerDto.mapList(users, new SellerDto());
     }
@@ -60,7 +60,7 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public SellerDto updateSeller(Long id, SellerDto sellerDto, String userId) {
         User user = (User) mapperToSeller.getMap(sellerDto, new User());
-        User currentUser = userRepository.findByIdAndRole(id, Role.SELLER);
+        User currentUser = userRepository.findByIdAndRoleType(id, RoleType.SELLER);
         if (currentUser == null) {
             throw new DataNotFoundException(String.format("User with id %d not found", id));
         }
