@@ -1,9 +1,6 @@
 package edu.miu.cs545.waa.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import edu.miu.cs545.waa.enums.RoleType;
 import lombok.Data;
@@ -19,5 +16,6 @@ public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
+  @Enumerated(EnumType.STRING)
   private RoleType roleType;
 }
