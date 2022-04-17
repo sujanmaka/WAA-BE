@@ -1,5 +1,9 @@
 package edu.miu.cs545.waa.constant;
 
+
+/**
+ * Security Terms
+ */
 public final class SecurityConstants {
 
   // Signing key for HS512 algorithm

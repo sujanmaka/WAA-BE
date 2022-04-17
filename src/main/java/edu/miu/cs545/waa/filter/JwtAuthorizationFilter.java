@@ -1,8 +1,8 @@
 package edu.miu.cs545.waa.filter;
 
 
-import com.sayal.eventor.constant.SecurityConstants;
-import com.sayal.eventor.util.JwtUtils;
+import edu.miu.cs545.waa.constant.SecurityConstants;
+import edu.miu.cs545.waa.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
    */
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-                                  FilterChain filterChain) throws IOException, ServletException {
+      FilterChain filterChain) throws IOException, ServletException {
     UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
     String header = JwtUtils.getToken(request);
     if (StringUtils.isEmpty(header) || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
@@ -75,17 +75,17 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         byte[] signingKey = SecurityConstants.JWT_SECRET.getBytes();
 
         Jws<Claims> parsedToken = Jwts.parser()
-                .setSigningKey(signingKey)
-                .parseClaimsJws(token.replace("Bearer", ""));
+            .setSigningKey(signingKey)
+            .parseClaimsJws(token.replace("Bearer", ""));
 
         String username = parsedToken
-                .getBody()
-                .getSubject();
+            .getBody()
+            .getSubject();
 
         List<SimpleGrantedAuthority> authorities = ((List<?>) parsedToken.getBody()
-                .get("rol")).stream()
-                .map(authority -> new SimpleGrantedAuthority((String) authority))
-                .collect(Collectors.toList());
+            .get("rol")).stream()
+            .map(authority -> new SimpleGrantedAuthority((String) authority))
+            .collect(Collectors.toList());
 
         if (StringUtils.isNotEmpty(username)) {
           if (JwtUtils.isValidToken(token)) {

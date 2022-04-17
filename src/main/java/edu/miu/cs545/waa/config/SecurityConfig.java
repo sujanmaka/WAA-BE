@@ -1,9 +1,9 @@
 package edu.miu.cs545.waa.config;
 
 
-import com.sayal.eventor.security.JwtAuthorizationFilter;
-import com.sayal.eventor.service.AppUserService;
 import edu.miu.cs545.waa.constant.SecurityConstants;
+import edu.miu.cs545.waa.filter.JwtAuthorizationFilter;
+import edu.miu.cs545.waa.service.UserService;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,28 +27,28 @@ import org.springframework.web.servlet.support.RequestDataValueProcessor;
 /**
  * SecurityConfiguration  class  it is responsible for  giving access to specific url, specific resource specific role
  *
- * @author Sayal
  * @version 1.0.0
- * @since 27 Nov 2019
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Value("${eventor.super.user.username}")
+  @Value("${waa.super.user.username}")
   private String superAdminUsername;
-  @Value("${eventor.super.user.password}")
+  @Value("${waa.super.user.password}")
   private String superAdminPassword;
+  private final UserService appUserService;
+
   @Autowired
-  AppUserService appUserService;
+  public SecurityConfig(UserService appUserService) {
+    this.appUserService = appUserService;
+  }
 
   /**
    * Method to  giving access to specific url, specific resource to specific role
    *
    * @param http HttpSecurity
-   * @throws Exception exception is thrown if user is not authenticated
-   * @since 27 Nov 2019
+   * @throws Exception is thrown if user is not authenticated
    */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -57,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/webjars/**", "/swagger-resources/**").permitAll()
         .antMatchers("/resources/**").permitAll()
-        .antMatchers("/swagger-ui.html").permitAll()
-        .antMatchers("/v2/**").permitAll()
+        .antMatchers("/h2console/**").permitAll()
+        .antMatchers("/swagger-ui.html", "/swagger-ui/**").permitAll()
+        .antMatchers("/v3/**").permitAll()
         .antMatchers("/uploads/**").permitAll()
         .antMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
         .antMatchers("/404").permitAll()
@@ -84,7 +84,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    * Method for setting  username password role either dynamically from database or statically in hard core program
    *
    * @param auth AuthenticationManagerBuilder
-   * @since 27 Nov 2019
    */
   @Override
   public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -102,7 +101,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    * Method for encoding password
    *
    * @return encoder password encorder is returned
-   * @since 27 Nov 2019
    */
   @Bean
   public PasswordEncoder passwordEncoder() {
@@ -113,7 +111,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    * Method CorsConfigurationSource for allowing resource files
    *
    * @return source CorsConfigurationSource
-   * @since 27 Nov 2019
    */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
@@ -130,7 +127,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    *
    * @return authenticationManager Object
    * @throws Exception
-   * @since 29 Nov 2019
    */
   @Bean
   @Override
