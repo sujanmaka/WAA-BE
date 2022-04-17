@@ -1,9 +1,12 @@
 package edu.miu.cs545.waa.domain;
 
-import javax.persistence.Embeddable;
+import lombok.Data;
 
-@Embeddable
-public class Address {
+import javax.persistence.Entity;
+
+@Entity
+@Data
+public class Address extends Base {
     private String street;
     private String city;
     private String zipCode;

@@ -3,7 +3,6 @@ package edu.miu.cs545.waa.domain;
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -15,14 +14,9 @@ public class Product extends Base {
     private String cost;
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product")
     private List<Review> reviews;
 
-    @ManyToMany
-    private List<User> users;
-
-    @OneToMany
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product")
     private List<Order> orders;
 }

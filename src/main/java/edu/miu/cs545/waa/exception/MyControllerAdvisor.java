@@ -36,9 +36,9 @@ public class MyControllerAdvisor {
     return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
   }
 
-  @ExceptionHandler(UserExistException.class)
-  public ResponseEntity<Object> handleUserExistException(
-          UserExistException ex, WebRequest request) {
+  @ExceptionHandler(UnprocessableException.class)
+  public ResponseEntity<Object> handleUnprocessableException(
+          UnprocessableException ex, WebRequest request) {
 
     Map<String, Object> body = new LinkedHashMap<>();
     body.put("timestamp", LocalDateTime.now());

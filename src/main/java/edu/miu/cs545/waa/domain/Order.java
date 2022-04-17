@@ -1,15 +1,22 @@
 package edu.miu.cs545.waa.domain;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
+import edu.miu.cs545.waa.enums.Payment;
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Data
 @Entity
+@Table(name = "buyer_order")
 public class Order extends Base {
     private String orderDate;
     private int quantity;
-    @Embedded
+    @OneToOne
     private Address shippingAddress;
-    @Embedded
+    @OneToOne
     private Address billingAddress;
-    private String paymentStatus;
+    @Enumerated(EnumType.STRING)
+    private Payment payment;
+    @ManyToOne
+    private Product product;
 }
