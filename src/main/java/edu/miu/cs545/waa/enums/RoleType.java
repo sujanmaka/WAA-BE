@@ -1,5 +1,5 @@
 package edu.miu.cs545.waa.enums;
 
-public enum Role {
+public enum RoleType {
     ADMIN, BUYER, SELLER;
 }

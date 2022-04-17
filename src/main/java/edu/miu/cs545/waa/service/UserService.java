@@ -1,5 +1,6 @@
 package edu.miu.cs545.waa.service;
 
+
 import edu.miu.cs545.waa.domain.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 

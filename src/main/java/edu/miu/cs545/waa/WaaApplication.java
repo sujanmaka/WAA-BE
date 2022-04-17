@@ -10,18 +10,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class WaaApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(WaaApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(WaaApplication.class, args);
+    }
 
-  @Bean
-  public ModelMapper modelMapper() {
-    return new ModelMapper();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
 }

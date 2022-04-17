@@ -1,24 +1,16 @@
-package edu.miu.cs545.waa.domain;
+package edu.miu.cs545.waa.dto;
 
+import edu.miu.cs545.waa.domain.Address;
 import edu.miu.cs545.waa.domain.dto.Base;
 import edu.miu.cs545.waa.enums.Payment;
 import lombok.Data;
 
-import javax.persistence.*;
-
 @Data
-@Entity
-@Table(name = "buyer_order")
-public class Order extends Base {
+public class OrderDto extends Base {
     private String orderDate;
     private int quantity;
-    @OneToOne
     private Address shippingAddress;
-    @OneToOne
     private Address billingAddress;
-    @Enumerated(EnumType.STRING)
     private Payment payment;
-    @ManyToOne
-    private Product product;
-
+    private ProductDto product;
 }
