@@ -1,6 +1,6 @@
 package edu.miu.cs545.waa.domain;
 
-import enums.Status;
+import edu.miu.cs545.waa.enums.Status;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -18,4 +18,5 @@ public class Base {
     @LastModifiedDate
     private Instant modifiedDate;
     private Status status;
+    private String userId;
 }

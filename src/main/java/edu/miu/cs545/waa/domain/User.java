@@ -1,6 +1,6 @@
 package edu.miu.cs545.waa.domain;
 
-import enums.Role;
+import edu.miu.cs545.waa.enums.Role;
 import lombok.Data;
 
 import javax.persistence.Entity;
