@@ -1,4 +1,4 @@
-package exception;
+package edu.miu.cs545.waa.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
