@@ -6,10 +6,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.Data;
 
+@Entity
 @Data
-public class Address {
-    private String street;
-    private String city;
-    private String zipCode;
-    private String state;
+public class PointCollected extends Base {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+  private Long pointsCollected;
+  private String comment;
 }
