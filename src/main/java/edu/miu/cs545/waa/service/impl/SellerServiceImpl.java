@@ -3,6 +3,7 @@ package edu.miu.cs545.waa.service.impl;
 import edu.miu.cs545.waa.domain.Follow;
 import edu.miu.cs545.waa.domain.User;
 import edu.miu.cs545.waa.dto.FilterDto;
+import edu.miu.cs545.waa.dto.FollowDto;
 import edu.miu.cs545.waa.dto.SellerDto;
 import edu.miu.cs545.waa.enums.RoleType;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
@@ -70,15 +71,15 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public void followSeller(boolean flag, Long sellerId, String userId) {
-        Follow follow = followRepository.findBySellerIdAndUserId(sellerId, userId);
-        if (follow == null && flag) {
+    public void followSeller(FollowDto followDto, String userId) {
+        Follow follow = followRepository.findBySellerIdAndUserId(followDto.getSellerId(), userId);
+        if (follow == null && followDto.isFollow()) {
             follow = new Follow();
-            follow.setSellerId(sellerId);
+            follow.setSellerId(followDto.getSellerId());
             follow.setUserId(userId);
             followRepository.save(follow);
         }
-        if (follow != null && !flag) {
+        if (follow != null && !followDto.isFollow()) {
             followRepository.delete(follow);
         }
     }

@@ -1,6 +1,7 @@
 package edu.miu.cs545.waa.service;
 
 import edu.miu.cs545.waa.dto.FilterDto;
+import edu.miu.cs545.waa.dto.FollowDto;
 import edu.miu.cs545.waa.dto.SellerDto;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface SellerService {
 
     SellerDto updateSeller(Long id, SellerDto sellerDto, String userId);
 
-    void followSeller(boolean flag, Long sellerId, String userId);
+    void followSeller(FollowDto followDto, String userId);
 }

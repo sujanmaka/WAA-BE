@@ -65,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/users/**").permitAll()
                 .antMatchers("/api/v1/public/**").permitAll()
                 .antMatchers("/api/v1/admins/**").hasAuthority(RoleType.ADMIN.name())
+                .antMatchers("/api/v1/buyers/**").hasAuthority(RoleType.BUYER.name())
                 .antMatchers("/api/v1/products/**").hasAnyAuthority(RoleType.SELLER.name(), RoleType.BUYER.name())
                 .antMatchers("/api/v1/orders/**").hasAnyAuthority(RoleType.SELLER.name(), RoleType.BUYER.name())
                 .antMatchers("/api/v1/reviews/**").hasAnyAuthority(RoleType.BUYER.name())

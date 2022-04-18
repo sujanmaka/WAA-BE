@@ -6,6 +6,7 @@ import edu.miu.cs545.waa.dto.ProductDto;
 import edu.miu.cs545.waa.dto.StatusDto;
 import edu.miu.cs545.waa.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -38,6 +39,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id, Principal principal) {
         productService.deleteProduct(id, principal.getName());
     }

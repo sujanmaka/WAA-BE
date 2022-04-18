@@ -4,6 +4,7 @@ import edu.miu.cs545.waa.domain.Order;
 import edu.miu.cs545.waa.domain.Product;
 import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.OrderDto;
+import edu.miu.cs545.waa.enums.Payment;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.exception.UnprocessableException;
@@ -15,6 +16,7 @@ import edu.miu.cs545.waa.util.MapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -68,7 +70,9 @@ public class OrderServiceImpl implements OrderService {
             Product product = productRepository.getById(orderDto.getProductId());
             Order order = (Order) mapperToOrder.getMap(orderDto, new Order());
             order.setProduct(product);
+            order.setPayment(Payment.DUE);
             order.setStatus(Status.CREATED);
+            order.setOrderDate(Instant.now());
             orderRepository.save(order);
         });
         return ordersDto;
@@ -108,6 +112,15 @@ public class OrderServiceImpl implements OrderService {
         if (order.getStatus().equals(Status.CREATED)) {
             order.setStatus(Status.CANCEL);
             orderRepository.save(order);
+        }
+    }
+
+    @Override
+    public void makePayment(String userId) {
+        List<Order> orders = orderRepository.findAllByUserIdAndPayment(userId, Payment.DUE);
+        if (orders != null) {
+            orders.forEach(o -> o.setPayment(Payment.PAID));
+            orderRepository.saveAll(orders);
         }
     }
 }

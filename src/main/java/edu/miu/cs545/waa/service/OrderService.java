@@ -22,4 +22,6 @@ public interface OrderService {
     void deleteOrder(Long id, String userId);
 
     void cancelOrder(Long id, String name);
+
+    void makePayment(String userId);
 }

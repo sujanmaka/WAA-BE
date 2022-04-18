@@ -4,6 +4,7 @@ import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.OrderDto;
 import edu.miu.cs545.waa.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -35,12 +36,20 @@ public class OrderController {
         return orderService.updateOrder(id, orderDto, principal.getName());
     }
 
+    @PutMapping("payments/")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void makePayment(Principal principal) {
+        orderService.makePayment(principal.getName());
+    }
+
     @PutMapping("/{id}/cancel")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelOrder(@PathVariable Long id, Principal principal) {
         orderService.cancelOrder(id, principal.getName());
     }
 
     @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable Long id, Principal principal) {
         orderService.deleteOrder(id, principal.getName());
     }
