@@ -22,5 +22,6 @@ public class LoginResponse {
   private String type;
   private String token;
   private String role;
+  private String refreshToken;
   private String message;
 }
