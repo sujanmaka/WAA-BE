@@ -24,7 +24,7 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDto> getAllProducts(FilterDto filterDto, Principal principal) {
-        return productService.getAllProducts(filterDto, principal.getName());
+        return productService.getAllProductsForAUser(filterDto, principal.getName());
     }
 
     @PostMapping

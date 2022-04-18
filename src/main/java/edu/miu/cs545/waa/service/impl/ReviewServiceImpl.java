@@ -1,10 +1,12 @@
 package edu.miu.cs545.waa.service.impl;
 
+import edu.miu.cs545.waa.domain.Product;
 import edu.miu.cs545.waa.domain.Review;
 import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.ReviewDto;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
+import edu.miu.cs545.waa.repository.ProductRepository;
 import edu.miu.cs545.waa.repository.ReviewRepository;
 import edu.miu.cs545.waa.service.ReviewService;
 import edu.miu.cs545.waa.util.MapperUtils;
@@ -18,12 +20,28 @@ import java.util.Optional;
 public class ReviewServiceImpl implements ReviewService {
 
     private ReviewRepository reviewRepository;
+    private ProductRepository productRepository;
     private MapperUtils<ReviewDto> mapperToReviewDto;
     private MapperUtils<Review> mapperToReview;
 
     @Autowired
     public void setReviewRepository(ReviewRepository reviewRepository) {
         this.reviewRepository = reviewRepository;
+    }
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Autowired
+    public void setMapperToReviewDto(MapperUtils<ReviewDto> mapperToReviewDto) {
+        this.mapperToReviewDto = mapperToReviewDto;
+    }
+
+    @Autowired
+    public void setMapperToReview(MapperUtils<Review> mapperToReview) {
+        this.mapperToReview = mapperToReview;
     }
 
     @Override
@@ -40,9 +58,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewDto createReview(ReviewDto reviewDto, String userId) {
-        Review review = (Review) mapperToReview.getMap(reviewDto, new Review());
-        review.setStatus(Status.CREATED);
-        return (ReviewDto) mapperToReviewDto.getMap(reviewRepository.save(review), new ReviewDto());
+        Optional<Product> product = productRepository.findById(reviewDto.getProductId());
+        if (product.isPresent()) {
+            Review review = (Review) mapperToReview.getMap(reviewDto, new Review());
+            review.setStatus(Status.CREATED);
+            review.setProduct(product.get());
+            return (ReviewDto) mapperToReviewDto.getMap(reviewRepository.save(review), new ReviewDto());
+        }
+        return null;
     }
 
     @Override

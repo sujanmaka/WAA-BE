@@ -12,7 +12,8 @@ import java.util.Optional;
 public interface ProductService {
     ProductDto getProductById(Long id, String userId);
 
-    List<ProductDto> getAllProducts(FilterDto filterDto, String userId);
+    List<ProductDto> getAllProducts(FilterDto filterDto);
+    List<ProductDto> getAllProductsForAUser(FilterDto filterDto, String userId);
 
     ProductDto createProduct(ProductDto productDto, String userId);
 
