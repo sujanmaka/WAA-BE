@@ -1,12 +1,14 @@
 package edu.miu.cs545.waa.service.impl;
 
 import edu.miu.cs545.waa.domain.Order;
+import edu.miu.cs545.waa.domain.Product;
 import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.OrderDto;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.exception.UnprocessableException;
 import edu.miu.cs545.waa.repository.OrderRepository;
+import edu.miu.cs545.waa.repository.ProductRepository;
 import edu.miu.cs545.waa.service.OrderService;
 import edu.miu.cs545.waa.util.CustomNullAwareBeanUtils;
 import edu.miu.cs545.waa.util.MapperUtils;
@@ -18,6 +20,7 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
+    private ProductRepository productRepository;
 
     private MapperUtils<OrderDto> mapperToOrderDto;
     private MapperUtils<Order> mapperToOrder;
@@ -25,6 +28,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
+    }
+
+    @Autowired
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @Autowired
@@ -56,8 +64,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @SuppressWarnings("unchecked")
     public List<OrderDto> createOrders(List<OrderDto> ordersDto, String userId) {
-        List<Order> orders = (List<Order>) mapperToOrder.mapList(ordersDto, new Order());
-        return (List<OrderDto>) mapperToOrderDto.mapList(orders, new OrderDto());
+        ordersDto.forEach(orderDto -> {
+            Product product = productRepository.getById(orderDto.getProductId());
+            Order order = (Order) mapperToOrder.getMap(orderDto, new Order());
+            order.setProduct(product);
+            order.setStatus(Status.CREATED);
+            orderRepository.save(order);
+        });
+        return ordersDto;
     }
 
     @Override
@@ -83,5 +97,17 @@ public class OrderServiceImpl implements OrderService {
             throw new UnprocessableException(String.format("Order with id %d already purchased.", id));
         }
         orderRepository.delete(currentOrder);
+    }
+
+    @Override
+    public void cancelOrder(Long id, String name) {
+        Order order = orderRepository.getById(id);
+        if (order.getStatus().equals(Status.SHIPPED) || order.getStatus().equals(Status.DELIVERED)) {
+            throw new UnprocessableException(String.format("Order with id %d is already shipped or delivered", id));
+        }
+        if (order.getStatus().equals(Status.CREATED)) {
+            order.setStatus(Status.CANCEL);
+            orderRepository.save(order);
+        }
     }
 }
