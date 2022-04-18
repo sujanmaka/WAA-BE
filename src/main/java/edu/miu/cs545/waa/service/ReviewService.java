@@ -9,4 +9,6 @@ public interface ReviewService {
     public List<ReviewDto> getReviews(FilterDto filterDto, String userId);
 
     ReviewDto createReview(ReviewDto reviewDto, String userId);
+
+    public ReviewDto updateReview(Long id, ReviewDto reviewDto);
 }

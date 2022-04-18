@@ -20,4 +20,6 @@ public interface OrderService {
     OrderDto updateOrder(Long id, OrderDto orderDto, String userId);
 
     void deleteOrder(Long id, String userId);
+
+    void cancelOrder(Long id, String name);
 }

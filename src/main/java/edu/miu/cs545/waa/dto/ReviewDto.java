@@ -1,10 +1,13 @@
 package edu.miu.cs545.waa.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.miu.cs545.waa.domain.Product;
+import edu.miu.cs545.waa.domain.dto.Base;
 import lombok.Data;
 
 @Data
-public class ReviewDto {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ReviewDto extends Base {
     private String title;
     private String content;
     private Product product;

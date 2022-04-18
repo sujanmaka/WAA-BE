@@ -63,13 +63,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @SuppressWarnings("unchecked")
     public List<ProductDto> getAllProducts(FilterDto filterDto, String userId) {
-        return (List<ProductDto>) mapperToProductDto.mapList(productRepository.findAllByUserId(userId), new ProductDto());
+        return (List<ProductDto>) mapperToProductDto.mapList(productRepository.findAll(), new ProductDto());
     }
 
     @Override
     public ProductDto createProduct(ProductDto productDto, String userId) {
         Product product = (Product) mapperToProduct.getMap(productDto, new Product());
         product.setUserId(userId);
+        product.setStatus(Status.CREATED);
         productRepository.save(product);
         return productDto;
     }
@@ -96,7 +97,8 @@ public class ProductServiceImpl implements ProductService {
         if (currentProduct.getStatus().equals(Status.PURCHASED)) {
             throw new UnprocessableException(String.format("Product with id %d already purchased.", id));
         }
-        productRepository.delete(currentProduct);
+        currentProduct.setStatus(Status.DELETED);
+        productRepository.save(currentProduct);
     }
 
     @Override
@@ -123,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
         return orderService.saveOrder(order.get());
     }
 
-//    private void increaseBuyerRewardPoint(String userId) {
+    //    private void increaseBuyerRewardPoint(String userId) {
 //        userService.updateBuyerRewardPoint(userId);
 //    }
 }

@@ -12,13 +12,13 @@ import javax.persistence.*;
 public class Order extends Base {
     private String orderDate;
     private int quantity;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address shippingAddress;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Address billingAddress;
     @Enumerated(EnumType.STRING)
     private Payment payment;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Product product;
 
 }

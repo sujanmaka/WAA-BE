@@ -2,6 +2,8 @@ package edu.miu.cs545.waa.service.impl;
 
 import edu.miu.cs545.waa.domain.Role;
 import edu.miu.cs545.waa.domain.User;
+import edu.miu.cs545.waa.enums.Status;
+import edu.miu.cs545.waa.exception.UnprocessableException;
 import edu.miu.cs545.waa.repository.RoleRepo;
 import edu.miu.cs545.waa.repository.UserRepo;
 import edu.miu.cs545.waa.service.UserService;
@@ -42,11 +44,18 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void save(User user) {
-        //TODO: change upon user creation implementation
-        List<Role> roleList = (List<Role>) roleRepo.findAll();
-        user.setRoles(roleList);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepo.save(user);
+        if (user.getRoleType() != null) {
+
+            if (userRepo.existsByEmail(user.getEmail())) {
+                throw new UnprocessableException(String.format("User with email %s already exist.", user.getEmail()));
+            }
+
+            List<Role> roleList = roleRepo.findByRoleType(user.getRoleType());
+            user.setRoles(roleList);
+            user.setStatus(Status.CREATED);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepo.save(user);
+        }
     }
 
     /**
