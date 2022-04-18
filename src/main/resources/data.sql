@@ -1,10 +1,10 @@
 -- USERS
 
-INSERT INTO users (id, email, name, password, decline_reason, reward_point)
-VALUES (111, 'test@test.com', 'sayal adhikari', '$2a$10$zJIH0vqVbEiie5qXKLv2/OSSBhfOFcQeKG6jbShEFRKfom84vCuU2', 'no reason', 100); -- 123
+INSERT INTO users (id, email, name, password, decline_reason, reward_point, role_type)
+VALUES (111, 'test@test.com', 'sayal adhikari', '$2a$10$zJIH0vqVbEiie5qXKLv2/OSSBhfOFcQeKG6jbShEFRKfom84vCuU2', 'no reason', 100, 'ADMIN'); -- 123
 
-INSERT INTO users (id, email, name, password, decline_reason, reward_point)
-VALUES (222, 'smaka@miu.edu', 'sujan', '$2a$10$7maL108rRqx01Q3qY5ee6e6E8G1t/u873fLUSrKfTzibNiFJp86sW', 'no reason', 100); -- 123
+INSERT INTO users (id, email, name, password, decline_reason, reward_point, role_type)
+VALUES (222, 'smaka@miu.edu', 'sujan', '$2a$10$7maL108rRqx01Q3qY5ee6e6E8G1t/u873fLUSrKfTzibNiFJp86sW', 'no reason', 100, 'ADMIN'); -- 123
 
 
 -- ROLES
