@@ -17,6 +17,10 @@ public class User extends Base {
     private String password;
     private String declineReason;
     private long rewardPoint;
+
+    //roleType for segregating users
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
     //a user can have multiple roles
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable
