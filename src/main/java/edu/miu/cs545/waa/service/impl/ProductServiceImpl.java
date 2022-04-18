@@ -62,8 +62,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<ProductDto> getAllProducts(FilterDto filterDto, String userId) {
+    public List<ProductDto> getAllProducts(FilterDto filterDto) {
         return (List<ProductDto>) mapperToProductDto.mapList(productRepository.findAll(), new ProductDto());
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<ProductDto> getAllProductsForAUser(FilterDto filterDto, String userId) {
+        List<Product> products = productRepository.findAllByUserId(userId);
+        return (List<ProductDto>) mapperToProductDto.mapList(products, new ProductDto());
     }
 
     @Override

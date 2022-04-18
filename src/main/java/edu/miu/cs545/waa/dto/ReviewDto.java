@@ -10,5 +10,6 @@ import lombok.Data;
 public class ReviewDto extends Base {
     private String title;
     private String content;
-    private Product product;
+    private Long productId;
+//    private Product product;
 }
