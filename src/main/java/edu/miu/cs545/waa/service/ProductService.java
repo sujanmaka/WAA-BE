@@ -26,4 +26,6 @@ public interface ProductService {
     OrderDto updateOrderStatus(Long id, Long orderId, StatusDto statusDto, String userId);
 
     List<OrderDto> getOrdersForAllProducts(String userId);
+
+    OrderDto getOrderById(Long orderId, String userId);
 }

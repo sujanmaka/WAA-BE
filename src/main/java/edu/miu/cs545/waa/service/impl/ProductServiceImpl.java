@@ -10,6 +10,7 @@ import edu.miu.cs545.waa.enums.Payment;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.exception.UnprocessableException;
+import edu.miu.cs545.waa.repository.OrderRepository;
 import edu.miu.cs545.waa.repository.ProductRepository;
 import edu.miu.cs545.waa.service.OrderService;
 import edu.miu.cs545.waa.service.ProductService;
@@ -27,8 +28,10 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
+    private OrderRepository orderRepository;
     private MapperUtils<ProductDto> mapperToProductDto;
     private MapperUtils<Product> mapperToProduct;
+    private MapperUtils<OrderDto> mapperToOrderDto;
     private OrderService orderService;
     private UserService userService;
 
@@ -38,6 +41,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+
+    @Autowired
     public void setMapperToProductDto(MapperUtils<ProductDto> mapperToProductDto) {
         this.mapperToProductDto = mapperToProductDto;
     }
@@ -45,6 +54,11 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     public void setMapperToProduct(MapperUtils<Product> mapperToProduct) {
         this.mapperToProduct = mapperToProduct;
+    }
+
+    @Autowired
+    public void setMapperToOrderDto(MapperUtils<OrderDto> mapperToOrderDto) {
+        this.mapperToOrderDto = mapperToOrderDto;
     }
 
     @Autowired
@@ -112,7 +126,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<OrderDto> getOrders(Long id, String userId) {
-        return getProductById(id, userId).getOrders().stream().filter(o -> o.getPayment().equals(Payment.PAID)).collect(Collectors.toList());
+//        return getProductById(id, userId).getOrders().stream().filter(o -> o.getPayment().equals(Payment.PAID)).collect(Collectors.toList());
+        return getProductById(id, userId).getOrders().stream().collect(Collectors.toList());
     }
 
     @Override
@@ -140,5 +155,13 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products = productRepository.findAllByUserId(userId);
         List<ProductDto> productsDto = (List<ProductDto>) mapperToProductDto.mapList(products, new ProductDto());
         return productsDto.stream().map(ProductDto::getOrders).flatMap(List::stream).collect(Collectors.toList());
+    }
+
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public OrderDto getOrderById(Long orderId, String userId) {
+        OrderDto order = (OrderDto) mapperToOrderDto.getMap(orderRepository.getById(orderId), new OrderDto());
+        return order;
     }
 }
