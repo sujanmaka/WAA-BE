@@ -27,25 +27,10 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping
-  public ResponseEntity<List<User>> getAll() {
-    return ResponseEntity.ok(userService.getAll());
-  }
-
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
   public void save(@RequestBody User p) {
     userService.save(p);
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<User> getById(@PathVariable long id) {
-    return ResponseEntity.ok(userService.findById(id));
-  }
-
-  @ResponseStatus(HttpStatus.NO_CONTENT)
-  @DeleteMapping("/{id}")
-  public void delete(@PathVariable long id) {
-    userService.deleteById(id);
-  }
 }
