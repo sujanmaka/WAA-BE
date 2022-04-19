@@ -134,7 +134,11 @@ public class ProductServiceImpl implements ProductService {
         return orderService.saveOrder(order.get());
     }
 
-    //    private void increaseBuyerRewardPoint(String userId) {
-//        userService.updateBuyerRewardPoint(userId);
-//    }
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<OrderDto> getOrdersForAllProducts(String userId) {
+        List<Product> products = productRepository.findAllByUserId(userId);
+        List<ProductDto> productsDto = (List<ProductDto>) mapperToProductDto.mapList(products, new ProductDto());
+        return productsDto.stream().map(ProductDto::getOrders).flatMap(List::stream).collect(Collectors.toList());
+    }
 }

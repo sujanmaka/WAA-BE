@@ -54,6 +54,11 @@ public class ProductController {
         return productService.getOrders(id, principal.getName());
     }
 
+    @GetMapping("/orders")
+    public List<OrderDto> getOrdersForAllProducts(Principal principal) {
+        return productService.getOrdersForAllProducts(principal.getName());
+    }
+
     @PutMapping("{id}/orders/{orderId}")
     public OrderDto updateOrderStatus(@PathVariable Long id, @PathVariable Long orderId, @RequestBody StatusDto statusDto, Principal principal) {
         return productService.updateOrderStatus(id, orderId, statusDto, principal.getName());
