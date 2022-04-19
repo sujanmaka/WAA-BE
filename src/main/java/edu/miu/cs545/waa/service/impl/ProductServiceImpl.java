@@ -63,6 +63,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public ProductDto getProductById(Long id) {
+        return (ProductDto) mapperToProductDto.getMap(productRepository.getById(id), new ProductDto());
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public List<ProductDto> getAllProducts(FilterDto filterDto) {
         return (List<ProductDto>) mapperToProductDto.mapList(productRepository.findAll(), new ProductDto());
