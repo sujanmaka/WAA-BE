@@ -23,5 +23,5 @@ public interface OrderService {
 
     void cancelOrder(Long id, String name);
 
-    void makePayment(String userId);
+    void makePayment(List<Long> ordersId, String userId);
 }

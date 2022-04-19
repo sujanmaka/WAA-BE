@@ -60,6 +60,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @SuppressWarnings("unchecked")
     public List<OrderDto> getAllOrders(FilterDto filterDto, String userId) {
+        if (filterDto != null && filterDto.getStatus() != null) {
+            return (List<OrderDto>) mapperToOrderDto.mapList(orderRepository.findAllByUserIdAndStatus(userId, filterDto.getStatus()), new OrderDto());
+        }
         return (List<OrderDto>) mapperToOrderDto.mapList(orderRepository.findAllByUserId(userId), new OrderDto());
     }
 
@@ -74,6 +77,7 @@ public class OrderServiceImpl implements OrderService {
             order.setStatus(Status.CREATED);
             order.setOrderDate(Instant.now());
             orderRepository.save(order);
+            orderDto.setId(order.getId());
         });
         return ordersDto;
     }
@@ -116,11 +120,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void makePayment(String userId) {
-        List<Order> orders = orderRepository.findAllByUserIdAndPayment(userId, Payment.DUE);
+    public void makePayment(List<Long> ordersId, String userId) {
+        List<Order> orders = orderRepository.findAllByIdInAndUserIdAndPayment(ordersId, userId, Payment.DUE);
         if (orders != null) {
             orders.forEach(o -> o.setPayment(Payment.PAID));
             orderRepository.saveAll(orders);
         }
+
+        //email notification will be triggered after payment
     }
 }

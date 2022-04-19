@@ -36,10 +36,10 @@ public class OrderController {
         return orderService.updateOrder(id, orderDto, principal.getName());
     }
 
-    @PutMapping("payments/")
+    @PutMapping("/payments")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void makePayment(Principal principal) {
-        orderService.makePayment(principal.getName());
+    public void makePayment(@RequestParam List<Long> ordersId, Principal principal) {
+        orderService.makePayment(ordersId, principal.getName());
     }
 
     @PutMapping("/{id}/cancel")

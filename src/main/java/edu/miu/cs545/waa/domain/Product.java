@@ -14,6 +14,12 @@ public class Product extends Base {
     private String name;
     private String cost;
     private String description;
+    private String picture;
+    private String rating;
+    private String category;
+    private String tags;
+    private String productIndex;
+    private int quantity;
 
     @OneToMany(mappedBy = "product")
     private List<Review> reviews;

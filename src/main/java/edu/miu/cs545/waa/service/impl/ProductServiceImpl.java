@@ -6,6 +6,7 @@ import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.OrderDto;
 import edu.miu.cs545.waa.dto.ProductDto;
 import edu.miu.cs545.waa.dto.StatusDto;
+import edu.miu.cs545.waa.enums.Payment;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.exception.UnprocessableException;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -110,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<OrderDto> getOrders(Long id, String userId) {
-        return getProductById(id, userId).getOrders();
+        return getProductById(id, userId).getOrders().stream().filter(o -> o.getPayment().equals(Payment.PAID)).collect(Collectors.toList());
     }
 
     @Override
