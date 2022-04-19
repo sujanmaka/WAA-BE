@@ -78,12 +78,10 @@ public class OrderController {
   }
 
   /**
-   *
    * @param orderId
    * @param userId
    * @return excel sheet
-   * @throws IOException
-   * TODO: fields to print to be finalized
+   * @throws IOException TODO: fields to print to be finalized
    */
   @GetMapping(value = "/generate-excel")
   public ResponseEntity<InputStreamResource> generateOrderExcel(@RequestParam long orderId,
