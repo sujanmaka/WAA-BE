@@ -28,6 +28,16 @@ public class ProductController {
         return productService.getAllProductsForAUser(filterDto, principal.getName());
     }
 
+    @GetMapping("/orders")
+    public List<OrderDto> getOrdersForAllProducts(Principal principal) {
+        return productService.getOrdersForAllProducts(principal.getName());
+    }
+
+    @GetMapping("/orders/{id}")
+    public OrderDto getOrder(@PathVariable Long id, Principal principal) {
+        return productService.getOrderById(id, principal.getName());
+    }
+
     @GetMapping("{id}")
     public ProductDto getProductById(@PathVariable Long id, Principal principal) {
         return productService.getProductById(id, principal.getName());
@@ -52,11 +62,6 @@ public class ProductController {
     @GetMapping("{id}/orders")
     public List<OrderDto> getOrders(@PathVariable Long id, Principal principal) {
         return productService.getOrders(id, principal.getName());
-    }
-
-    @GetMapping("/orders")
-    public List<OrderDto> getOrdersForAllProducts(Principal principal) {
-        return productService.getOrdersForAllProducts(principal.getName());
     }
 
     @PutMapping("{id}/orders/{orderId}")
