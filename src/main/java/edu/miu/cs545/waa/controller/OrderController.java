@@ -44,6 +44,11 @@ public class OrderController {
     return orderService.getAllOrders(filterDto, principal.getName());
   }
 
+  @GetMapping("{id}")
+  public OrderDto getOrderById(@PathVariable Long id, Principal principal) {
+    return orderService.getOrderById(id, principal.getName());
+  }
+
   @PostMapping
   public List<OrderDto> createOrders(@RequestBody List<OrderDto> ordersDto, Principal principal) {
     return orderService.createOrders(ordersDto, principal.getName());

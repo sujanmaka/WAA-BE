@@ -28,6 +28,11 @@ public class ProductController {
         return productService.getAllProductsForAUser(filterDto, principal.getName());
     }
 
+    @GetMapping("{id}")
+    public ProductDto getProductById(@PathVariable Long id, Principal principal) {
+        return productService.getProductById(id, principal.getName());
+    }
+
     @PostMapping
     public ProductDto createProduct(@RequestBody ProductDto productDto, Principal principal) {
         return productService.createProduct(productDto, principal.getName());
