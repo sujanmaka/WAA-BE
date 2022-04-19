@@ -2,6 +2,7 @@ package edu.miu.cs545.waa.controller;
 
 import edu.miu.cs545.waa.domain.User;
 import edu.miu.cs545.waa.dto.FilterDto;
+import edu.miu.cs545.waa.dto.ReviewDetailDto;
 import edu.miu.cs545.waa.dto.ReviewDto;
 import edu.miu.cs545.waa.dto.SellerDto;
 import edu.miu.cs545.waa.service.ReviewService;
@@ -53,6 +54,11 @@ public class AdminController {
         return reviewService.getReviews(filterDto, principal.getName());
     }
 
+    @GetMapping("/reviews/{id}")
+    public ReviewDetailDto getReviewsDetailById(@PathVariable Long id) {
+        return reviewService.getReviewsDetailById(id);
+    }
+
     @PutMapping("/reviews/{id}")
     public ReviewDto updateReviews(@PathVariable Long id, @RequestBody ReviewDto reviewDto) {
         return reviewService.updateReview(id, reviewDto);
@@ -73,5 +79,6 @@ public class AdminController {
     public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok(userService.getAll());
     }
+
 
 }

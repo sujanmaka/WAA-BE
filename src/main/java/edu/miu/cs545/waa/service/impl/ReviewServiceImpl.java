@@ -2,12 +2,13 @@ package edu.miu.cs545.waa.service.impl;
 
 import edu.miu.cs545.waa.domain.Product;
 import edu.miu.cs545.waa.domain.Review;
-import edu.miu.cs545.waa.dto.FilterDto;
-import edu.miu.cs545.waa.dto.ReviewDto;
+import edu.miu.cs545.waa.domain.User;
+import edu.miu.cs545.waa.dto.*;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.repository.ProductRepository;
 import edu.miu.cs545.waa.repository.ReviewRepository;
+import edu.miu.cs545.waa.repository.UserRepo;
 import edu.miu.cs545.waa.service.ReviewService;
 import edu.miu.cs545.waa.util.MapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class ReviewServiceImpl implements ReviewService {
     private ProductRepository productRepository;
     private MapperUtils<ReviewDto> mapperToReviewDto;
     private MapperUtils<Review> mapperToReview;
+    private MapperUtils<ProductDto> mapperToProductDto;
+    private UserRepo userRepo;
 
     @Autowired
     public void setReviewRepository(ReviewRepository reviewRepository) {
@@ -42,6 +45,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     public void setMapperToReview(MapperUtils<Review> mapperToReview) {
         this.mapperToReview = mapperToReview;
+    }
+
+    @Autowired
+    public void setMapperToProductDto(MapperUtils<ProductDto> mapperToProductDto) {
+        this.mapperToProductDto = mapperToProductDto;
+    }
+
+    @Autowired
+    public void setUserRepo(UserRepo userRepo) {
+        this.userRepo = userRepo;
     }
 
     @Override
@@ -78,5 +91,22 @@ public class ReviewServiceImpl implements ReviewService {
         currentReview.get().setStatus(reviewDto.getStatus());
         reviewRepository.save(currentReview.get());
         return reviewDto;
+    }
+
+    @Override
+    public ReviewDetailDto getReviewsDetailById(Long id) {
+        Optional<Review> currentReview = reviewRepository.findById(id);
+        if (currentReview.isPresent()) {
+            User user = userRepo.findByEmail(currentReview.get().getUserId());
+            ReviewDetailDto reviewDetailDto = new ReviewDetailDto();
+            reviewDetailDto.setProductDto((ProductDto) mapperToProductDto.getMap(currentReview.get().getProduct(), new ProductDto()));
+            BuyerDto buyerDto = new BuyerDto();
+            buyerDto.setId(user.getId());
+            buyerDto.setName(user.getName());
+            buyerDto.setEmail(user.getEmail());
+            reviewDetailDto.setBuyerDto(buyerDto);
+            return reviewDetailDto;
+        }
+        return new ReviewDetailDto();
     }
 }
