@@ -83,4 +83,19 @@ public class SellerServiceImpl implements SellerService {
             followRepository.delete(follow);
         }
     }
+
+    @Override
+    public boolean isFollowed(Long sellerId, String userId) {
+        Follow follow = followRepository.findBySellerIdAndUserId(sellerId, userId);
+        return follow != null;
+    }
+
+    @Override
+    public SellerDto getSeller(String userId) {
+        User user = userRepository.findByEmail(userId);
+        if (user != null) {
+            return (SellerDto) mapperToSellerDto.getMap(user, new SellerDto());
+        }
+        return new SellerDto();
+    }
 }

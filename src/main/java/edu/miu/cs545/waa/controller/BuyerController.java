@@ -1,7 +1,6 @@
 package edu.miu.cs545.waa.controller;
 
 import edu.miu.cs545.waa.dto.FollowDto;
-import edu.miu.cs545.waa.dto.SellerDto;
 import edu.miu.cs545.waa.service.SellerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,5 +22,10 @@ public class BuyerController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void followSeller(@RequestBody FollowDto followDto, Principal principal) {
         sellerService.followSeller(followDto, principal.getName());
+    }
+
+    @GetMapping("/follows")
+    public boolean isFollowed(@RequestParam Long sellerId, Principal principal) {
+       return sellerService.isFollowed(sellerId, principal.getName());
     }
 }

@@ -20,4 +20,5 @@ public class ProductDto extends Base {
     private int quantity;
     private List<ReviewDto> reviews;
     private List<OrderDto> orders;
+    private SellerDto sellerDto;
 }

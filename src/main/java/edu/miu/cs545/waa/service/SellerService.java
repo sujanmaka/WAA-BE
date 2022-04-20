@@ -12,4 +12,8 @@ public interface SellerService {
     SellerDto updateSeller(Long id, SellerDto sellerDto, String userId);
 
     void followSeller(FollowDto followDto, String userId);
+
+    SellerDto getSeller(String userId);
+
+    boolean isFollowed(Long sellerId, String userId);
 }

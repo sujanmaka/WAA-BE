@@ -6,7 +6,6 @@ import edu.miu.cs545.waa.dto.FilterDto;
 import edu.miu.cs545.waa.dto.OrderDto;
 import edu.miu.cs545.waa.dto.ProductDto;
 import edu.miu.cs545.waa.dto.StatusDto;
-import edu.miu.cs545.waa.enums.Payment;
 import edu.miu.cs545.waa.enums.Status;
 import edu.miu.cs545.waa.exception.DataNotFoundException;
 import edu.miu.cs545.waa.exception.UnprocessableException;
@@ -14,7 +13,7 @@ import edu.miu.cs545.waa.repository.OrderRepository;
 import edu.miu.cs545.waa.repository.ProductRepository;
 import edu.miu.cs545.waa.service.OrderService;
 import edu.miu.cs545.waa.service.ProductService;
-import edu.miu.cs545.waa.service.UserService;
+import edu.miu.cs545.waa.service.SellerService;
 import edu.miu.cs545.waa.util.CustomNullAwareBeanUtils;
 import edu.miu.cs545.waa.util.MapperUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     private MapperUtils<Product> mapperToProduct;
     private MapperUtils<OrderDto> mapperToOrderDto;
     private OrderService orderService;
-    private UserService userService;
+    private SellerService sellerService;
 
     @Autowired
     public void setProductRepository(ProductRepository productRepository) {
@@ -67,8 +66,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    public void setSellerService(SellerService sellerService) {
+        this.sellerService = sellerService;
     }
 
     @Override
@@ -78,7 +77,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getProductById(Long id) {
-        return (ProductDto) mapperToProductDto.getMap(productRepository.getById(id), new ProductDto());
+        ProductDto productDto = (ProductDto) mapperToProductDto.getMap(productRepository.getById(id), new ProductDto());
+        productDto.setSellerDto(sellerService.getSeller(productDto.getUserId()));
+        return productDto;
     }
 
     @Override

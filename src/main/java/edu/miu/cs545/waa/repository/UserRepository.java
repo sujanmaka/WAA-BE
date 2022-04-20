@@ -4,7 +4,6 @@ import edu.miu.cs545.waa.domain.User;
 import edu.miu.cs545.waa.enums.RoleType;
 import edu.miu.cs545.waa.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -14,5 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByRoleType(RoleType roleType);
 
     User findByIdAndRoleType(Long id, RoleType roleType);
+
+    User findByEmail(String email);
 
 }
