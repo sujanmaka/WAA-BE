@@ -6,6 +6,7 @@ import edu.miu.cs545.waa.service.UserService;
 
 import java.security.Principal;
 import java.util.List;
+import javax.naming.CannotProceedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class UserController {
 
   @ResponseStatus(HttpStatus.CREATED)
   @PostMapping
-  public void save(@RequestBody User p) {
+  public void save(@RequestBody User p) throws CannotProceedException {
     userService.save(p);
   }
 

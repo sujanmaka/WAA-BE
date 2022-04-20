@@ -1,6 +1,7 @@
 package edu.miu.cs545.waa.service;
 
 import java.util.List;
+import javax.naming.CannotProceedException;
 
 /**
  * Base service to implement repeated CRUD operation
@@ -14,7 +15,7 @@ public interface BaseService<T> {
    *
    * @param t to save
    */
-  void save(T t);
+  void save(T t) throws CannotProceedException;
 
   /**
    * Delete the specific object by id

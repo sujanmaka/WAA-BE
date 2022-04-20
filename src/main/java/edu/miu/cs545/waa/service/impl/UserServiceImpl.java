@@ -7,6 +7,7 @@ import edu.miu.cs545.waa.exception.UnprocessableException;
 import edu.miu.cs545.waa.repository.RoleRepo;
 import edu.miu.cs545.waa.repository.UserRepo;
 import edu.miu.cs545.waa.service.UserService;
+import javax.naming.CannotProceedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
      * @param user to save
      */
     @Override
-    public void save(User user) {
+    public void save(User user) throws CannotProceedException {
         if (user.getRoleType() != null) {
 
             if (userRepo.existsByEmail(user.getEmail())) {
@@ -55,6 +56,8 @@ public class UserServiceImpl implements UserService {
             user.setStatus(Status.CREATED);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepo.save(user);
+        } else {
+            throw new CannotProceedException("roleType is missing");
         }
     }
 
