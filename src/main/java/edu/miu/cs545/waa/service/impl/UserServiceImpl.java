@@ -106,4 +106,9 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(username);
         }
     }
+
+    @Override
+    public User getActiveUser(String email) {
+        return userRepo.findByEmail(email);
+    }
 }

@@ -3,6 +3,8 @@ package edu.miu.cs545.waa.controller;
 
 import edu.miu.cs545.waa.domain.User;
 import edu.miu.cs545.waa.service.UserService;
+
+import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,11 @@ public class UserController {
   @PostMapping
   public void save(@RequestBody User p) {
     userService.save(p);
+  }
+
+  @GetMapping("/active")
+  public User get(Principal principal){
+    return userService.getActiveUser(principal.getName());
   }
 
 }
